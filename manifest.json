@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "Pee-is-free",
+  "description": "Extensio to get your current toilette state.",
+  "version": "0.1",
+
+  "browser_action": {
+    "default_icon": "icon-free-38.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "persistent": true,
+    "scripts": ["background.js"]
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "activeTab",
+    "alarms",
+    "notifications",
+    "storage",
+    "http://*/",
+    "https://*/"
+  ]
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head><title>Pee is free options</title></head>
+<style>
+    label{
+        display: block;
+        width: 100px;
+    }
+    label input[type=checkbox], input[type=radio] {
+        vertical-align: middle;
+        position: relative;
+        bottom: 1px;
+    }
+
+</style>
+<body>
+    <label><input id="mode-manual" data-click-action="change-mode" type="checkbox" name="mode" value="manual">Manual</label>
+    <label><input id="mode-auto" data-click-action="change-mode" type="checkbox" name="mode" value="auto">Auto</label>
+    <hr>
+    <button data-click-action="get-state">Get state</button>
+    <script src="popup.js"></script>
+</body>
+</html>
