@@ -32,6 +32,7 @@ var ToiletteApp = function(){
     this.interval=null;
     this.mode = 'manual';
     this.popupPort = null;
+    this.connectError = 0;
     chrome.storage.sync.get('mode', function(items) {
         if(items && items.mode){
             var mode = items.mode;
@@ -40,6 +41,11 @@ var ToiletteApp = function(){
     });
     chrome.extension.onConnect.addListener(function(port) {
         if(port.name=='Popupaction'){
+            port.onDisconnect.addListener(function() {
+                if(self.popupPort === port){
+                    self.popupPort = null;
+                }
+            });
             self.popupPort = port;
             port.onMessage.addListener(function(command,port) {
                 var action = command.action;
@@ -97,12 +103,34 @@ ToiletteApp.prototype.getAsynchToiletteState = function(cb){
                 if (xhr.readyState == 4) {
                     try{
                         var resp = JSON.parse(xhr.responseText);
-                        var state = !self.currentToilette.getInUse();
                         if(resp){
+                            self.connectError = 0;
                             cb(resp.toiletIsFree);
+                        }else{
+                            self.connectError++;
+                            if(self.connectError>5){
+                                self.connectError = 0;
+                                chrome.notifications.create('toilette',{
+                                    type: "basic",
+                                    iconUrl:'icon-free-38.png',
+                                    title:'Toilettestate',
+                                    message:"Problem loading data, switch to manual mode."
+                                } );
+                                self.setMode('manual');
+                            }
                         }
                     }catch(e){
-
+                        self.connectError++;
+                        if(self.connectError>5){
+                            self.connectError = 0;
+                            chrome.notifications.create('toilette',{
+                                type: "basic",
+                                iconUrl:'icon-free-38.png',
+                                title:'Toilettestate',
+                                message:"Problem loading data, switch to manual mode."
+                            } );
+                            self.setMode('manual');
+                        }
                     }
                 }
             }

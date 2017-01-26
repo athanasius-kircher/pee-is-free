@@ -9,6 +9,10 @@
     "default_icon": "icon-free-38.png",
     "default_popup": "popup.html"
   },
+  "icons": {
+    "16": "icon-16.png",
+    "48": "icon-48.png",
+    "128": "icon-128.png" },
   "background": {
     "persistent": true,
     "scripts": ["background.js"]
