@@ -105,7 +105,7 @@ ToiletteApp.prototype.getAsynchToiletteState = function(cb){
                         var resp = JSON.parse(xhr.responseText);
                         if(resp){
                             self.connectError = 0;
-                            cb(resp.toiletIsFree);
+                            cb(!resp.toiletIsFree);
                         }else{
                             self.connectError++;
                             if(self.connectError>5){
